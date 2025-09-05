@@ -37,5 +37,27 @@ INSERT INTO authorities VALUES
     ("clara","ROLE_EMPLOYEE");
 
 
+```
+---
+### How To set up jdbc auth ***(using custom table schemas)***
 
+1. Provide query to fid user by username or email
+2. provide query to find authorities
+
+### In @Configuration class add  this:
+
+```java
+import org.springframework.context.annotation.Bean;
+import org.springframework.security.provisioning.JdbcUserDetailsManager;
+import org.springframework.security.provisioning.UserDetailsManager;
+
+import javax.sql.DataSource;
+
+@Bean
+public UserDetailsManager userDetailsManager(DataSource dataSource) {
+    JdbcUserDetailsManager manager = new JdbcUserDetailsManager(dataSource);
+    manager.setUsersByUsernameQuery("select user_id,email,active from employees where user_id=?");
+    manager.setAuthoritiesByUsernameQuery("select user_id,role from roles where user_id=?");
+    return manager;
+}
 ```
