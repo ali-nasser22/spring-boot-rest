@@ -56,7 +56,7 @@ import javax.sql.DataSource;
 @Bean
 public UserDetailsManager userDetailsManager(DataSource dataSource) {
     JdbcUserDetailsManager manager = new JdbcUserDetailsManager(dataSource);
-    manager.setUsersByUsernameQuery("select user_id,email,active from employees where user_id=?");
+    manager.setUsersByUsernameQuery("select user_id,email,password,active from employees where user_id=?");
     manager.setAuthoritiesByUsernameQuery("select user_id,role from roles where user_id=?");
     return manager;
 }
